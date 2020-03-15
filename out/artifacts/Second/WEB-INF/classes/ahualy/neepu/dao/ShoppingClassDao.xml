@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ahualy.neepu.dao.ShoppingClassDao" >
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="ahualy.neepu.bean.ShoppingClass" >
+        <result column="id" property="id"/>
+        <result column="shoppingclass_name" property="shoppingclass_name"/>
+        <result column="shoppingclass_desc" property="shoppingclass_desc"/>
+    </resultMap>
+
+     <!--th_role_user table all fields -->
+    <sql id="Base_Column_List" >
+        id, shoppingclass_name,shoppingclass_desc
+    </sql>
+
+    <insert id="addShoppingClass" parameterType="ahualy.neepu.bean.ShoppingClass" >
+        insert into shoppingclass (shoppingclass_name,shoppingclass_desc)
+        values (#{shoppingclass_name},#{shoppingclass_desc});
+    </insert>
+
+    <select id="queryShoppingClassById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List" />
+        from shoppingclass where id = #{id}
+    </select>
+
+    <select id="queryShoppingClassList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from shoppingclass
+    </select>
+    <delete id="deleteShoppingClassById" parameterType="java.lang.Integer">
+       delete from shoppingclass where id = #{id}
+    </delete>
+    <update id="updateShoppingClassById" parameterType="ahualy.neepu.bean.ShoppingClass" >
+        update shoppingclass set
+        <trim  suffixOverrides="," >
+            <if test="id != null and id != ''">
+                id = #{id},
+            </if>
+            <if test="shoppingclass_name != null and shoppingclass_name != ''">
+                shoppingclass_name=#{shoppingclass_name},
+            </if>
+            <if test="shoppingclass_desc != null and shoppingclass_desc != ''">
+                shoppingclass_desc=#{shoppingclass_desc},
+            </if>
+        </trim> where id = #{id}
+    </update>
+</mapper>

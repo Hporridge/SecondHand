@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ahualy.neepu.dao.OrderDao" >
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="ahualy.neepu.bean.Order" >
+        <result column="order_id" property="order_id"/>
+        <result column="shopping_name" property="shopping_name"/>
+        <result column="num" property="num"/>
+        <result column="money" property="money"/>
+        <result column="revceiving_address" property="revceiving_address"/>
+        <result column="revceiving_name" property="revceiving_name"/>
+        <result column="revceiving_phone" property="revceiving_phone"/>
+        <result column="send_phone" property="send_phone"/>
+        <result column="photo" property="photo"/>
+        <result column="orderId" property="orderId"/>
+    </resultMap>
+
+     <!--th_role_user table all fields -->
+    <sql id="Base_Column_List" >
+        order_id, shopping_name,num,money,revceiving_address,revceiving_name,revceiving_phone,send_phone,photo,orderId
+    </sql>
+
+    <insert id="addOrder" parameterType="ahualy.neepu.bean.Order" >
+        insert into shoppingorder (order_id, shopping_name,num,money,revceiving_address,revceiving_name,revceiving_phone,send_phone,photo,orderId)
+        values (#{order_id},#{shopping_name},#{num},#{money},#{revceiving_address},#{revceiving_name},#{revceiving_phone},#{send_phone},#{photo},#{orderId});
+    </insert>
+
+    <select id="queryOrderById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List" />
+        from shoppingorder where order_id = #{order_id}
+    </select>
+
+    <select id="queryOrderList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from shoppingorder
+    </select>
+
+
+
+    <select id="queryOrderListByPhone" resultMap="BaseResultMap"  parameterType="java.lang.String">
+        select <include refid="Base_Column_List" />
+        from shoppingorder where revceiving_phone = #{phone}
+    </select>
+
+
+    <delete id="deleteOrderById" parameterType="java.lang.Integer">
+       delete from shoppingorder where order_id = #{order_id}
+    </delete>
+    <update id="updateOrderById" parameterType="ahualy.neepu.bean.Order" >
+        update shoppingorder set
+        <trim  suffixOverrides="," >
+            <if test="order_id != null and order_id != ''">
+                order_id = #{order_id},
+            </if>
+            <if test="shopping_name != null and shopping_name != ''">
+                shopping_name=#{shopping_name},
+            </if>
+            <if test="num != null and num != ''">
+                num=#{num},
+            </if>
+            <if test="money != null and money != ''">
+                money=#{money},
+            </if>
+            <if test="revceiving_address != null and revceiving_address != ''">
+                revceiving_address=#{revceiving_address},
+            </if>
+            <if test="revceiving_name != null and revceiving_name != ''">
+                revceiving_name=#{revceiving_name},
+            </if>
+            <if test="revceiving_phone != null and revceiving_phone != ''">
+                revceiving_phone=#{revceiving_phone},
+            </if>
+            <if test="send_phone != null and send_phone != ''">
+                send_phone=#{send_phone},
+            </if>
+            <if test="photo != null and photo != ''">
+                photo=#{photo},
+            </if>
+            <if test="orderId != null and orderId != ''">
+                orderId=#{orderId},
+            </if>
+        </trim> where order_id = #{order_id}
+    </update>
+</mapper>

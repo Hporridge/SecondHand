@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ahualy.neepu.dao.ShoppingDao" >
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="ahualy.neepu.bean.Shopping" >
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="money" property="money"/>
+        <result column="c_id" property="c_id"/>
+        <result column="shopping_type" property="shopping_type"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        id, title,money,content,photo,c_id
+    </sql>
+
+    <insert id="addShopping" parameterType="ahualy.neepu.bean.Shopping" >
+        insert into shopping (id,title,money,content,photo,c_id,shopping_type)
+        values (#{id},#{title},#{money},#{content},#{photo},#{c_id},#{shopping_type});
+    </insert>
+
+    <select id="queryShoppingById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List" />
+        from shopping where id = #{id}
+    </select>
+
+
+    <select id="queryShoppingList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from shopping
+    </select>
+
+    <select id="queryShoppingListById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from shopping where c_id = #{id}
+    </select>
+
+
+    <select id="queryShoppingByTypeId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from shopping where shopping_type = #{id}
+    </select>
+
+    
+    <select id="queryShoppingByContent" resultMap="BaseResultMap" parameterType="string">
+        select <include refid="Base_Column_List" />
+        from shopping 
+        where 
+        title like #{content}
+        or content like #{content}
+    </select>
+
+    <delete id="deleteShoppingById" parameterType="java.lang.Integer">
+        delete from shopping where id=#{id}
+    </delete>
+
+    <update id="updateShoppingById" parameterType="ahualy.neepu.bean.Shopping" >
+        update shopping set
+        <trim  suffixOverrides="," >
+            <if test="id != null and id != ''">
+                id = #{id},
+            </if>
+            <if test="title != null and title != ''">
+                title=#{title},
+            </if>
+            <if test="content != null and content != ''">
+                content=#{content},
+            </if>
+            <if test="money != null and money != ''">
+                money=#{money},
+            </if>
+            <if test="c_id != null and c_id != ''">
+                c_id=#{c_id},
+            </if>
+            <if test="shopping_type != null and shopping_type != ''">
+                shopping_type=#{shopping_type},
+            </if>
+            <if test="photo != null and photo != ''">
+                photo=#{photo},
+            </if>
+        </trim> where id = #{id}
+    </update>
+</mapper>
